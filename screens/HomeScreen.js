@@ -1,4 +1,4 @@
-import {Image, View,Text,ScrollView,TouchableOpacity} from 'react-native';
+import {Image, View,Text,ScrollView,TouchableOpacity,FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context'
 import youtubeIcon from '../assets/icons/youtubeIcon.png';
 import avatar from '../assets/images/avatar.png'
@@ -6,14 +6,32 @@ import * as Icon from 'react-native-feather';
 import { themeColors } from '../theme';
 import {categories} from '../constants'
 import {shortVideos} from '../constants'
-import {videos} from '../constants'
-import {useState} from 'react';
+//import {videos} from '../constants'
+import {useState,useEffect} from 'react';
 import shortsIcon from '../assets/icons/shortsIcon.png'
-import ShortVideoCard from '../components/ShortVideoCard'
 import VideoCard from '../components/VideoCard'
+import Shorts from '../components/Shorts'
+import fetchTrending from '../api/fetchTrending'
 
 export default function HomeScreen() {
     const[activeCategory,setActiveCategory] =useState('All')
+    const[videos,setVideos] = useState([])
+    useEffect(() => {
+      fetchData()
+    },[])
+    const fetchData =async() => {
+      try {
+      const response = await fetchTrending()
+      console.log(response[0].channelTitle)
+      console.log(response[0].description)
+      setVideos(response)
+     // let dataresponse = response[5]
+      //console.log('channeltitle' + dataresponse.channelTitle)
+      } catch (err){
+        console.log('error',err)
+      }
+      
+    }
   return (
 <View style={{backgroundColor:themeColors.bg}} className='flex-1'>
 <SafeAreaView className='flex-row justify-between mx-4'>
@@ -49,31 +67,27 @@ export default function HomeScreen() {
               }
             </ScrollView>
           </View>
-    {/*  <View className='mt-2 py-5 space-y-3 border-t-zinc-700'>
+      <View className='py-5 space-y-3 border-t-zinc-700'>
           <View className='mx-4 flex-row items-center space-x-2'>
               <Image source={shortsIcon} className='h-6 w-5'/>
               <Text className='text-white font-semibold text-lg tracking-tighter'>Shorts</Text>
           </View>
-          <ScrollView horizontal showHorizontalScrollIndicator={false} className='px-4'>
+         <ScrollView horizontal showHorizontalScrollIndicator={false} className='px-4'>
               {
                   shortVideos.map((item,index) => {
                       return (
-                          <ShortVideoCard item={item} key={index}/>
+                          <Shorts item={item} key={index}/>
                       )
                   })
               }
-          </ScrollView>
+            </ScrollView>
       </View>
-     <ScrollView
-      showVerticalScrollIndicator={false}>
-          {
-              videos.map((video,index) => {
-                  return (
-                      <VideoCard video={video} key={index}/>
-                  )
-              })
-          }
-        </ScrollView>*/}
+      <ScrollView showsVerticalScrollIndicator={false}>
+            {
+              videos.map((video, index)=> <VideoCard video={video} key={index} />)
+            }
+          </ScrollView>
+
   </ScrollView>
 
 </View>

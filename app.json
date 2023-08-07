@@ -4,12 +4,12 @@
     "slug": "youtubeclone",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/youtubeIcon.png",
+    "icon": "./assets/icons/youtubefreepik.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/icons/youtubeIcon.png",
       "resizeMode": "contain",
-      "backgroundColor": "black"
+      "backgroundColor": "#212121"
     },
     "assetBundlePatterns": [
       "**/*"

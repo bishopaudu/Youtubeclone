@@ -28,7 +28,7 @@ return (
                 tabBarIcon:() => <Image
                 source={youtubeshortslogo}
                 fadeDuration={0}
-                style={{ width: 20, height: 20, }}
+                style={{ width: 20, height: 20, tintColor:'black' }}
               />
             }}/>   
 
