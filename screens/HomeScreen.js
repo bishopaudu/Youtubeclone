@@ -1,4 +1,4 @@
-import {Image, View,Text,ScrollView,TouchableOpacity,FlatList} from 'react-native';
+import {Image, View,Text,ScrollView,TouchableOpacity,ActivityIndicator} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context'
 import youtubeIcon from '../assets/icons/youtubeIcon.png';
 import avatar from '../assets/images/avatar.png'
@@ -6,31 +6,18 @@ import * as Icon from 'react-native-feather';
 import { themeColors } from '../theme';
 import {categories} from '../constants'
 import {shortVideos} from '../constants'
-//import {videos} from '../constants'
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import shortsIcon from '../assets/icons/shortsIcon.png'
 import VideoCard from '../components/VideoCard'
 import Shorts from '../components/Shorts'
-import fetchTrending from '../api/fetchTrending'
+import useFetch from '../api/useFetch';
 
 export default function HomeScreen() {
     const[activeCategory,setActiveCategory] =useState('All')
-    const[videos,setVideos] = useState([])
-    useEffect(() => {
-      fetchData()
-    },[])
-    const fetchData =async() => {
-      try {
-      const response = await fetchTrending()
-      console.log(response[0].channelTitle)
-      console.log(response[0].description)
-      setVideos(response)
-     // let dataresponse = response[5]
-      //console.log('channeltitle' + dataresponse.channelTitle)
-      } catch (err){
-        console.log('error',err)
-      }
-      
+    
+    const {data,isLoading,error} = useFetch("trending")
+    if(error){
+      return <Text>{error}</Text>
     }
   return (
 <View style={{backgroundColor:themeColors.bg}} className='flex-1'>
@@ -82,11 +69,14 @@ export default function HomeScreen() {
               }
             </ScrollView>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-            {
-              videos.map((video, index)=> <VideoCard video={video} key={index} />)
-            }
-          </ScrollView>
+      {isLoading ? <ActivityIndicator size="large" color="#0000ff"/>  : (
+         <ScrollView showsVerticalScrollIndicator={false}>
+         {
+           data.map((data, index)=> <VideoCard video={data} key={index} />)
+         }
+       </ScrollView>
+
+      )}
 
   </ScrollView>
 

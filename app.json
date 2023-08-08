@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/icons/youtubeIcon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#212121"
+      "backgroundColor": "#121212"
     },
     "assetBundlePatterns": [
       "**/*"

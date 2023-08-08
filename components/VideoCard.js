@@ -1,14 +1,18 @@
 import {Text,View,Image,Pressable,StyleSheet} from 'react-native'
 import * as Icon from 'react-native-feather';
 import formatUtils from '../utils/formatUtils'
+import {useState} from 'react'
 
 export default function VideoCard({video}){
-    //console.log('logging video data .....')
+    console.log('logging video data .....')
     //console.log(video)
+    const[showBottomSheet,setShowBottomSheet] =useState(false)
     return (
         <Pressable>
             <View>
+                <Pressable onPress={()=> console.log(video.channelId)}>
                 <Image source={{uri:video.thumbnail[0].url}} style={{ height: 200, width: '100%' }}/>
+                </Pressable>
                 <View style={styles.durationContainer}>
                 <View style={{ backgroundColor: 'black', borderRadius: 4}}>
                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}>
